@@ -1,0 +1,82 @@
+section, h2, h3, p, a, img, table {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+}
+section {
+    width: 100%;
+}
+
+header {
+    border-bottom: thin solid gray;
+}
+
+header h1 {
+    font-size: 12pt;
+}
+
+header h1 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h1 {
+    color: darkGreen;
+}
+
+table {
+    width: 100%;
+    border-bottom: thin solid gray;
+}
+
+table tr:nth-child(2n) {
+    background-color: lightcyan;
+}
+
+table tr.highlight td {
+    background-color: lightgreen;
+}
+
+table td, table th {
+    text-align: left;
+    border-top: thin solid gray;
+}
+
+table.fields {
+    width: auto;
+}
+
+table.fields th {
+    text-align: right;
+    padding-right: 1em;
+}
+
+thead input {
+    width: 100%;
+}
+
+footer {
+    border-top: thin solid gray;
+}
+
+nav.limit_offset {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.related {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2em;
+}
+
+.dialog {
+    position: fixed;
+    top: 5em;
+    right: 3em;
+    width: 20em;
+    border: thick solid lightgreen;
+    background: lightyellow;
+    min-height: 2em;
+    display: none;
+}
