@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+    <h2>Liste des poules</h2>
+
+    <p>Voici la liste des poules pour le prochain tournoi :</p>
+
+    {% if poules %}
+    {% for poule in poules %}
+    <table class="poule-table" width="30%">
+        <thead>
+            <tr>
+                <th colspan="2">Poule {{ poule.id }} --- <a href="{{ url_for('poule_sheet', poule_id = poule.id) }}">Lien vers la feuille de poule de la poule {{ poule.id }}</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in poule.Joueurs %}
+            <tr>
+                <td>{{ player }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+
+    <p>Nombre total de poules : {{ poules|length }}</p>
+
+    <p>Lorsque les poules sont toutes terminées, cliquez sur le bouton ci-dessous pour passer au tableau final</p>
+    <form action="{{ url_for('final_table') }}" method="get">
+        <input type="submit" value="Passer au tableau final">
+
+    {% else %}
+    <p>Aucune poule n'est actuellement définie pour le prochain tournoi.</p>
+    <p><a href="{{ url_for('inscription') }}">Utilisez cette page pour ajouter des joueurs</a></p>
+    {% endif %}
+</section>
+{% endblock %}
+

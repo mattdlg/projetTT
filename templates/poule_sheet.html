@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section>
+    <h2>Feuille de Poule</h2>
+
+    <p>Voici la feuille de poule pour la poule {{ poule.id }} :</p>
+
+    {% if poule %}
+    <table class="poule-table" width="50%">
+        <thead>
+            <tr>
+                <th>Numéro</th>
+                <th>Joueur</th>
+                <th>Classement</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in poule.Joueurs %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ player.nom }} {{ player.prenom }}</td>
+                <td>{{ player.classement }}</td>
+                {% if poule.positions|length != 0 %}
+                    {% for (pos, name) in poule.positions %}
+                        {% if name == player.ID %}
+                            <td>{{ pos }}</td>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <td>0</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Match de la poule {{ poule.id }} : </p>
+
+    <table class="match-table" width="50%">
+        <thead>
+            <tr>
+                <th>Match</th>
+                <th>Joueur 1</th>
+                <th>Joueur 2</th>
+                <th  colspan="2">Score</th>
+                {% for i in range(1, poule.Joueurs|length + 1) %}
+                    <th>J{{i}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for index in parties.keys() %}
+                <tr>
+                    <td><a href="{{ url_for('poule_match', poule_id = poule.id, j1 = parties[index][0].ID, j2 = parties[index][1].ID)}}">Match n°{{index}}</a></td>
+                    <td>{{parties[index][0].prenom}} {{parties[index][0].nom}}</td>
+                    <td>{{parties[index][1].prenom}} {{parties[index][1].nom}}</td>
+                    {% if list_matchs[(parties[index][0].ID, parties[index][1].ID)]|length != 0 %}
+                        <td>{{ list_matchs[(parties[index][0].ID, parties[index][1].ID)].setj1 }}</td>
+                        <td>{{ list_matchs[(parties[index][0].ID, parties[index][1].ID)].setj2 }}</td>
+                        {% for i in range(1, poule.Joueurs|length + 1) %}
+                            {% if (i == list_matchs[(parties[index][0].ID, parties[index][1].ID)].winner) %}
+                                <td>1</td>
+                            {% else %}
+                                <td>0</td>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <td>0</td>
+                        <td>0</td>
+                        {% for i in range(1, poule.Joueurs|length + 1) %}
+                            <td>0</td>
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="8" text-align="center">Fin de la poule</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form action="{{ url_for('poule_sheet', poule_id = poule.id) }}" method="post" enctype="multipart/form-data" onsubmit="return confirm('Attention, cette action calculera les positions finales des joueurs dans la poule, voulez-vous continuer ?');">
+        <button type="submit">Calculer le classement de la poule</button>
+    </form>
+
+    <p><a href="{{ url_for('poules') }}">Retourner au tableau d'affichage des poules</a></p>
+
+    {% else %}
+    <p>Aucune information disponible pour cette poule.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

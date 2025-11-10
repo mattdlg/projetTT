@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section>
+    <h2>Tableau Principal</h2>
+    <p>Le tableau final est généré automatiquement à partir des résultats des poules.</p>
+
+    <svg width="100%" height="450px" id="final-table">
+        <rect x="0" y="0" width="100%" height="100%" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
+
+        {# Prepare items: support mapping (dict) or already ordered list of (pos, joueur) #}
+        {% if table is mapping %}
+            {% set items = table|dictsort %}
+        {% else %}
+            {% set items = table %}
+        {% endif %}
+
+        {% set svg_h = 450 %}
+        {% set top = 25 %}
+        {% set bottom = 25 %}
+        {% set inner = svg_h - top - bottom %}
+        {% set n = items|length %}
+        {% if n == 0 %}
+            <!-- no players -->
+        {% else %}
+            {% set spacing = inner / n %}
+
+            {# Column X positions start at 10% and step by 10% per round/column #}
+            {% macro col_x(r) %}{{ (10 + (r * 10)) }}%{% endmacro %}
+
+            {# Draw horizontal connectors and player names for the initial column (round 0) #}
+            {% set rounds_limit = 10 %} {# safe upper bound for log2(n) #}
+
+            {% for r in range(0, rounds_limit) %}
+                {% set size = (2 ** r) %}
+                {% set groups = (n // size) %}
+                {% if groups >= 1 %}
+                    {# draw horizontal line for each group center at this round from col r to col r+1 #}
+                    {% for m in range(0, groups) %}
+                        {% set y = top + (m + 0.5) * size * spacing %}
+                        <line x1="{{ col_x(r) }}" y1="{{ y|round(2) }}" x2="{{ col_x(r+1) }}" y2="{{ y|round(2) }}" stroke="#000" stroke-width="2"/>
+
+                        {# On the first round, print player names at the left side #}
+                        {% if r == 0 %}
+                            {% set pos = items[m][0] %}
+                            {% set player = items[m][1] %}
+                            <text x="{{ (10 - 3) }}%" y="{{ y|round(2) }}" font-size="12" text-anchor="start">{{ pos }} - {{ player }}</text>
+                        {% endif %}
+                    {% endfor %}
+
+                    {# For this round, draw vertical connectors that join pairs of groups at col r+1 #}
+                    {% if groups >= 2 %}
+                        {% for k in range(0, groups, 2) %}
+                            {% set y1 = top + (k + 0.5) * size * spacing %}
+                            {% set y2 = top + (k + 1 + 0.5) * size * spacing %}
+                            <line x1="{{ col_x(r+1) }}" y1="{{ y1|round(2) }}" x2="{{ col_x(r+1) }}" y2="{{ y2|round(2) }}" stroke="#000" stroke-width="2"/>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    </svg>
+    
+</section>
+
+{% endblock %}

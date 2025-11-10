@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+   <h2>Chargement des inscrits à partir d'un fichier csv</h2>
+    <p>
+        Deposez ici votre fichier "xxx.csv" contenant les informations des joueurs inscrits pour le tournoi: 
+        <form action="{{ url_for('upload_csv') }}" method="post" enctype="multipart/form-data" onsubmit="return confirm('Attention, cette action supprimera tous les joueurs ajoutés précédemment, êtes-vous sûr de vouloir continuer ?');">
+            <input type="file" name="csv_file" accept=".csv">
+            <button type="submit">Upload file</button>
+        </form>
+    </p>
+</section>
+
+<section>
+    <h2>Addition de nouveaux joueurs à partir d'un formulaire</h2>
+    <p>
+        Depuis le formulaire ci-dessous, vous pouvez renseigner toutes les informations nécessaires pour ajouter
+        un nouveau joueur.
+    </p>
+    <form action="{{ url_for('inscription_post') }}" method="post">
+            <p><label>Numéro de licence AS: <input name="Licence_AS"></label>
+            <p><label>Nom: <input name="Nom"></label>
+            <p><label>Prenom: <input name="Prenom"></label>
+            <p><label>Ecole: <input name="Ecole"></label>
+            <p><label>Classement: <input name="Classement"></label>
+            <p><button>Envoyer</button>
+    </form>
+</section>
+
+{% endblock %}

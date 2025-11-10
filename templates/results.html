@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section>
+    <h2>Consultation des résultats des compétitions précédents</h2>
+
+    <p>Renseignez ici la date de la compétition dont vous voulez connaitre les résultats:</p>
+    <form action="{{ url_for('results') }}" method="post">
+        <label for="date">Date de la compétition (format YYYY-MM-DD):</label>
+        <input type="date" id="date" name="date" required>
+        <input type="submit" value="Consulter les résultats">
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if res %}
+        <h3>Résultats pour la date {{ date }}</h3>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>date</th>
+                    <th>1er</th>
+                    <th>2ème</th>
+                    <th>3ème</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ res.date }}</td>
+                    <td>{{ res.classement.first }}</td>
+                    <td>{{ res.classement.second }}</td>
+                    <td>{{ res.classement.third }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+   <h2>Organisation de Tournoi de tennis de table</h2>
+    <p>
+        Bienvenu sur l'application TableTennisForALL. 
+        Ici, vous pourrez créer et organiser des tournois de tennis de table facilement avec vos amis ou en compétition.
+        Pour cela, il vous suffit d'une simple feuille excel avec les informations des joueurs. L'application s'occupera du reste pour vous.
+        Il est également possible de consulter les resultats des compétitions précédentes.
+        D'autres features arriveront prochainement !
+    </p>
+</section> 
+
+<section>
+    <h3>Inscrire les joueurs de votre compétitions</h3>
+    <p align="center"><a href="{{ url_for('inscription') }}">Cliquez ici pour inscrire de nouveaux participants</a></p>
+</section>
+
+<section>
+    <h3>Consulter les joueurs déjà inscrits</h3>
+    <p align="center"><a href="{{ url_for('players') }}">Cliquez ici pour consulter les participants de la prochaine compétition</a></p>
+</section>
+
+<section>
+    <h3>Lancer une nouvelle compétition</h3>
+    <p align="center"><a href="{{ url_for('poules') }}">Cliquez ici pour débuter un nouveau tournoi</a></p>
+</section>
+
+<section>
+    <h3>Consultation des résultats précédents</h3>
+   <p align="center"><a href="{{ url_for('results') }}">Cliquez ici pour visualiser les résultats des tournois précédents</a></p>
+</section>
+
+
+<section>
+    <p align="center"><img src="{{ url_for('static', filename='images/Pictogramme_TT.png') }}" alt="Tennis de table" style="width: 30%; height: auto;"></p>
+    <p align="center">Image source: <a href="https://www.tennis-de-table.com/jo-2024-ping-pong/">Pictogramme des JO de Paris 2024</a></p>
+</section>
+
+{% endblock %}

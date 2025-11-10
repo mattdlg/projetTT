@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section>
+
+    {% if error %}
+        <h2>Erreur lors du chargement du fichier</h2>
+        <p>{{ error }}</p>
+    {% else %}
+        <h2>Chargement réussi</h2>
+        <p>{{ success }}</p>
+    {% endif %}
+
+</section>
+
+<section>
+    <p><a href="{{ url_for('menu') }}" class="btn btn-primary">Retour au menu principal</a></p>
+    <p><a href="{{ url_for('inscription') }}" class="btn btn-secondary">Charger d'autres joueurs</a></p>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section>
+    <h2> Match entre les joueurs {{match.joueur1.nom}} {{match.joueur1.prenom}} et {{match.joueur2.nom}} {{match.joueur2.prenom}}</h2>
+    <p>Pour enregistrer le score du match, veuillez saisir les scores de chaque set.</p>
+    <p>Puis cliquez sur le bouton enregistrer.</p>
+    <form class=match-form action="{{ url_for('poule_match', poule_id = match.poule_id, j1 = match.joueur1.ID, j2 = match.joueur2.ID) }}" method="post">
+    <table class="match-table" width="50%">
+        <thead>
+            <tr>
+                <th>Joueur 1</th>
+                <th>Joueur 2</th>
+                <th colspan="1">Set n°1</th>
+                <th colspan="1">Set n°2</th>
+                <th colspan="1">Set n°3</th>
+                <th colspan="1">Set n°4</th>
+                <th colspan="1">Set n°5</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td type="player-info">{{ match.joueur1.nom }} {{ match.joueur1.prenom }}</td>
+                <td type="player-info">{{ match.joueur2.nom }} {{ match.joueur2.prenom }}</td>
+                <td type="set-score">
+                    <input type="number" name="set1_j1" min="0" max="99" required>
+                    <input type="number" name="set1_j2" min="0" max="99" required>
+                </td>
+                <td type="set-score">
+                    <input type="number" name="set2_j1" min="0" max="99" required>
+                    <input type="number" name="set2_j2" min="0" max="99" required>
+                </td>
+                <td type="set-score">
+                    <input type="number" name="set3_j1" min="0" max="99" required>
+                    <input type="number" name="set3_j2" min="0" max="99" required>
+                </td>
+                <td type="set-score">
+                    <input type="number" name="set4_j1" min="0" max="99">
+                    <input type="number" name="set4_j2" min="0" max="99">
+                </td>
+                <td type="set-score">
+                    <input type="number" name="set5_j1" min="0" max="99">
+                    <input type="number" name="set5_j2" min="0" max="99">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Enregistrer le score du match">
+    </form>
+    <p>Une fois le score enregistré, vous pourrez consulter les résultats du match sur <a href="{{ url_for('poule_sheet', poule_id = match.poule_id) }}">la feuille de poule</a></p>
+
+</section>
+
+{% endblock %}
